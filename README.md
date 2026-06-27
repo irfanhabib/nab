@@ -17,13 +17,29 @@ A **feature-complete, LLM-optimized [YNAB](https://www.ynab.com) command-line cl
 Requires [Bun](https://bun.sh) ≥ 1.1.
 
 ```bash
+bun install -g @irfanhabib/nab
+nab --help
+```
+
+<details>
+<summary>Other ways to run it</summary>
+
+From source (no install):
+
+```bash
 git clone https://github.com/irfanhabib/nab.git && cd nab
 bun install
-bun run build        # produces a standalone ./nab binary
+bun run src/index.ts --help
+```
+
+Compile a standalone, dependency-free binary:
+
+```bash
+bun run build        # produces ./nab
 ./nab --help
 ```
 
-Or run from source without compiling: `bun run src/index.ts <command>`.
+</details>
 
 ## Authentication
 
