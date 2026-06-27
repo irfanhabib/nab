@@ -1,0 +1,20 @@
+# Secrets — never commit
+.envrc
+.env
+.env.*
+config.json
+*.pat
+
+# Build output
+dist/
+nab
+nab-*
+*.map
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+
+# Logs / OS
+*.log
+.DS_Store
