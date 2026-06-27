@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  binaries:
+    name: Build ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: bun-linux-x64
+            out: nab-linux-x64
+          - target: bun-linux-arm64
+            out: nab-linux-arm64
+          - target: bun-darwin-x64
+            out: nab-darwin-x64
+          - target: bun-darwin-arm64
+            out: nab-darwin-arm64
+          - target: bun-windows-x64
+            out: nab-windows-x64.exe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - name: Compile
+        run: bun build --compile --minify --target=${{ matrix.target }} --outfile ${{ matrix.out }} src/index.ts
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.out }}
+          generate_release_notes: true
+
+  npm:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for npm provenance
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: bun install --frozen-lockfile
+      - name: Publish (skipped if NPM_TOKEN is not set)
+        if: ${{ env.NODE_AUTH_TOKEN != '' }}
+        run: npm publish --provenance --access public
