@@ -1,6 +1,6 @@
 {
   "name": "@irfanhabib/nab",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A feature-complete, LLM-optimized YNAB (You Need A Budget) command-line client with an MCP server.",
   "type": "module",
   "module": "dist/index.js",
