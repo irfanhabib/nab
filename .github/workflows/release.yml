@@ -33,7 +33,7 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Compile
         run: bun build --compile --minify --target=${{ matrix.target }} --outfile ${{ matrix.out }} src/index.ts
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v3
         with:
           files: ${{ matrix.out }}
           generate_release_notes: true
