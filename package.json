@@ -1,14 +1,14 @@
 {
-  "name": "nab",
+  "name": "@irfanhabib/nab",
   "version": "0.1.0",
   "description": "A feature-complete, LLM-optimized YNAB (You Need A Budget) command-line client with an MCP server.",
   "type": "module",
-  "module": "src/index.ts",
+  "module": "dist/index.js",
   "bin": {
-    "nab": "src/index.ts"
+    "nab": "dist/index.js"
   },
   "files": [
-    "src",
+    "dist",
     "README.md",
     "LICENSE"
   ],
@@ -16,7 +16,9 @@
     "start": "bun run src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
-    "build": "bun build --compile --minify --sourcemap --outfile nab src/index.ts"
+    "build:dist": "bun build --minify --target=bun --outfile dist/index.js src/index.ts",
+    "build": "bun build --compile --minify --sourcemap --outfile nab src/index.ts",
+    "prepublishOnly": "bun run build:dist"
   },
   "keywords": [
     "ynab",
@@ -27,6 +29,17 @@
     "finance"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irfanhabib/nab.git"
+  },
+  "homepage": "https://github.com/irfanhabib/nab#readme",
+  "bugs": {
+    "url": "https://github.com/irfanhabib/nab/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
     "commander": "^13.1.0",
